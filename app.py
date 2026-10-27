@@ -100,7 +100,7 @@ def shoponly(f):
 CSS="""body{background:#f4f7fb;color:#1f2937;font:14px system-ui}.nav{background:#126b4f;color:white;padding:13px 20px;display:flex;justify-content:space-between;align-items:center}.nav a{color:white;text-decoration:none;font-weight:700;font-size:20px}.layout{display:grid;grid-template-columns:220px 1fr;gap:18px;padding:18px}.side{display:flex;flex-direction:column;gap:4px}.side a{background:white;border-radius:8px;padding:11px;text-decoration:none;color:#234}.side a:hover{background:#e6f6ee}.main{min-width:0}.panel,.metric{background:white;border:1px solid #e2e8f0;border-radius:13px;padding:16px;margin-bottom:15px;box-shadow:0 3px 12px #00000008}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}.metric b{display:block;font-size:23px;margin-top:5px}.muted{color:#667085}.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}.field label{display:block;font-size:12px;margin-bottom:4px;color:#667085}.field input,.field select,input,select,textarea{max-width:100%;box-sizing:border-box}.field input,.field select,input,select,textarea{border:1px solid #ccd5df;border-radius:7px;padding:9px;width:100%;background:white}.btn,button{border:0;border-radius:7px;padding:9px 12px;cursor:pointer;background:#126b4f;color:white;text-decoration:none;display:inline-block;font-size:13px}.btn2{background:#edf2f7;color:#263238}.danger{background:#b42318}.warn{background:#b7791f}.tablewrap{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:620px}th,td{text-align:left;padding:9px;border-bottom:1px solid #e6ebf1;vertical-align:middle}th{font-size:12px;color:#667085;white-space:nowrap}.actions{display:flex;gap:4px;flex-wrap:wrap}.flash{padding:10px;border-radius:8px;margin:10px 18px;background:#e6f6ee}.flash.danger{background:#fee4e2}.flash.warning{background:#fff0c2}.login{max-width:400px;margin:8vh auto;padding:24px;background:white;border-radius:14px}.products{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:8px}.tile{background:#f8fbfd;border:1px solid #dbe4ec;border-radius:8px;padding:10px;text-align:left;color:#123}.tile b,.tile span,.tile small{display:block;margin-bottom:4px}.tile span{color:#126b4f}.total{font-size:28px;color:#126b4f;font-weight:800}details{margin-top:8px}summary{cursor:pointer;color:#126b4f}@media(max-width:850px){.layout{grid-template-columns:1fr;padding:10px}.side{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}.side a{font-size:12px;padding:9px}.panel{padding:12px}.metric b{font-size:20px}.login{margin:4vh 12px}.formgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:420px){.formgrid{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 /* Mobile-first usability overrides */
 *{box-sizing:border-box}html{width:100%;overflow-x:hidden}body{margin:0;max-width:100%;overflow-x:hidden}.nav{position:sticky;top:0;z-index:50;gap:10px;padding:10px 12px;min-height:54px}.nav span{font-size:12px;display:flex;align-items:center;gap:8px}.layout{width:100%;min-width:0}.side{min-width:0}.main{width:100%;min-width:0;overflow-wrap:anywhere}h1{font-size:clamp(21px,4vw,30px);line-height:1.2;margin:10px 0 16px}h2{font-size:clamp(17px,3.5vw,22px)}.panel{min-width:0;overflow:hidden}.tablewrap{width:100%;max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}.tablewrap table{min-width:620px}.field input,.field select,input,select,textarea{font-size:16px;min-height:42px}.btn,button{min-height:42px;touch-action:manipulation}.actions{align-items:center}.actions form{margin:0}.flash{margin:8px;padding:10px 12px}@media(max-width:850px){.layout{display:flex;flex-direction:column;gap:10px;padding:8px}.side{display:flex;flex-direction:row;overflow-x:auto;white-space:nowrap;gap:6px;padding:2px 0 8px;scrollbar-width:thin}.side a{flex:0 0 auto;font-size:13px;padding:11px 13px}.main{padding:0}.panel,.metric{padding:12px;border-radius:10px}.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric b{font-size:19px}.formgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.tile{min-width:0}.total{font-size:24px}}@media(max-width:520px){.nav{padding:9px}.nav>a{font-size:18px}.nav span{font-size:11px}.layout{padding:7px}.formgrid{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{margin-bottom:10px}.actions .btn,.actions button,.actions form button{flex:1 1 auto;text-align:center}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.tablewrap table{font-size:12px}th,td{padding:8px}.login{margin:16px 8px;padding:18px}}@media print{.side,.nav{display:none!important}.layout{display:block;padding:0}.main{width:100%;overflow:visible}.tablewrap{overflow:visible}.tablewrap table{min-width:0;width:100%}}"""
-BASE="""<!doctype html><html><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>{{ title or 'EasyKada' }}</title><style>"""+CSS+"""</style></head><body><div class=nav><a href="{{ url_for('index') }}">🛒 EasyKada</a>{% if session.get('username') %}<span>{{session.username}} · <a style='font-size:13px' href="{{url_for('logout')}}">Logout</a></span>{% endif %}</div>{% for cat,msg in get_flashed_messages(with_categories=true) %}<div class='flash {{cat}}'>{{msg}}</div>{% endfor %}{% if session.get('role')=='shop' %}<div class=layout><nav class=side>{% for ep,label in [('dashboard','Dashboard'),('pos','New Sale / POS'),('products','Products & Stock'),('history','Sales History & Bills'),('purchases','Purchases'),('entries','Other Income/Expenses'),('sales_returns','Sales Returns'),('purchase_returns','Purchase Returns'),('payment_methods','Payment Methods'),('customers','Customers'),('suppliers','Suppliers'),('shop_settings','Shop Settings'),('reports','Accounts & Reports'),('backup','Backup')] %}<a href="{{url_for(ep)}}">{{label}}</a>{% endfor %}</nav><main class=main>{% else %}<main style='max-width:1250px;margin:auto;padding:18px'>{% endif %}"""
+BASE="""<!doctype html><html><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'><title>{{ title or 'EasyKada' }}</title><style>"""+CSS+"""</style></head><body><div class=nav><a href="{{ url_for('index') }}">🛒 EasyKada</a>{% if session.get('username') %}<span>{{session.username}} · <a style='font-size:13px' href="{{url_for('logout')}}">Logout</a></span>{% endif %}</div>{% for cat,msg in get_flashed_messages(with_categories=true) %}<div class='flash {{cat}}'>{{msg}}</div>{% endfor %}{% if session.get('role')=='shop' %}<div class=layout><nav class=side>{% for ep,label in [('dashboard','Dashboard'),('pos','New Sale / POS'),('products','Products & Stock'),('history','Sales History & Bills'),('purchases','Purchases'),('entries','Other Income/Expenses'),('sales_returns','Sales Returns'),('purchase_returns','Purchase Returns'),('customers','Customers'),('suppliers','Suppliers'),('shop_settings','Shop Settings'),('reports','Accounts & Reports'),] %}<a href="{{url_for(ep)}}">{{label}}</a>{% endfor %}</nav><main class=main>{% else %}<main style='max-width:1250px;margin:auto;padding:18px'>{% endif %}"""
 END="""</main>{% if session.get('role')=='shop' %}</div>{% endif %}<script>function confirmDelete(msg){return confirm(msg)}function filterTable(id,q){document.querySelectorAll('#'+id+' tbody tr').forEach(r=>r.style.display=r.innerText.toLowerCase().includes(q.toLowerCase())?'':'none')}</script></body></html>"""
 def page(content,title="EasyKada"):
  return render_template_string(BASE+content+END,title=title)
@@ -433,7 +433,7 @@ def customers():
   c.commit();flash("Customer saved. WhatsApp is only opened when sharing a bill.","success");return redirect(url_for("customers"))
  eid=request.args.get("edit_id",type=int);edit=c.execute("SELECT * FROM customers WHERE id=? AND shop_id=?",(eid,shopid())).fetchone() if eid else None
  cs=rows("SELECT c.*,COALESCE((SELECT SUM(due) FROM sales WHERE customer_id=c.id),0) due FROM customers c WHERE c.shop_id=? ORDER BY c.name")
- content="""<h1>Customers</h1><section class=panel><h2>{{'Edit customer' if edit else 'Add customer'}}</h2><form method=post><input type=hidden name=id value='{{edit.id if edit else \"\"}}'><div class=formgrid>{% for n,l in [('name','Name'),('phone','Phone'),('whatsapp','WhatsApp number'),('address','Address')] %}<div class=field><label>{{l}}</label><input name={{n}} value='{{edit[n] if edit else \"\"}}' {% if n=='name' %}required{% endif %}></div>{% endfor %}</div><p><button>Save customer</button></p></form></section><section class=panel><div class=tablewrap><table><thead><tr><th>Name</th><th>Phone/WhatsApp</th><th>Address</th><th>Due</th><th>Actions</th></tr></thead><tbody>{% for c in cs %}<tr><td>{{c.name}}</td><td>{{c.phone}} / {{c.whatsapp}}</td><td>{{c.address}}</td><td>{{c.due|money}}</td><td class=actions><a class=btn href='/customer/{{c.id}}'>Statement</a><a class=btn href='/customers?edit_id={{c.id}}'>Edit</a><form method=post action='/customers/delete/{{c.id}}' onsubmit='return confirm(\"Delete/archive customer?\")'><button class=danger>Delete</button></form></td></tr>{% endfor %}</tbody></table></div></section>"""
+ content="""<h1>Customers</h1><section class=panel><h2>{{'Edit customer' if edit else 'Add customer'}}</h2><form method=post><input type=hidden name=id value='{{edit.id if edit else \"\"}}'><div class=formgrid>{% for n,l in [('name','Name'),('phone','Phone'),('whatsapp','WhatsApp number'),('address','Address')] %}<div class=field><label>{{l}}</label><input name={{n}} value='{{edit[n] if edit else \"\"}}' {% if n=='name' %}required{% endif %}></div>{% endfor %}</div><p><button>Save customer</button></p></form></section><section class=panel><div class=tablewrap><table><thead><tr><th>Name</th><th>Phone/WhatsApp</th><th>Address</th><th>Due</th><th>Actions</th></tr></thead><tbody>{% for c in cs %}<tr><td>{{c.name}}</td><td>{{c.phone}} / {{c.whatsapp}}</td><td>{{c.address}}</td><td>{{c.due|money}}</td><td class=actions><a class=btn href='/customer/{{c.id}}'>View</a><a class='btn btn2' href='/customer/{{c.id}}'>View Statement</a><a class=btn href='/customers?edit_id={{c.id}}'>Edit</a><form method=post action='/customers/delete/{{c.id}}' onsubmit='return confirm(\"Delete/archive customer?\")'><button class=danger>Delete</button></form></td></tr>{% endfor %}</tbody></table></div></section>"""
  return render_template_string(BASE+content+END,cs=cs,edit=edit)
 @app.route("/customer/<int:cid>")
 @shoponly
@@ -585,15 +585,29 @@ def purchase_returns():
 def shop_settings():
  c=db(); sid=shopid()
  if request.method=="POST":
+  action=val("action","save_shop")
+  if action=="add_payment_method":
+   name=val("payment_name")
+   if not name: flash("Enter a payment method name.","danger")
+   else:
+    try:c.execute("INSERT INTO payment_methods(shop_id,name) VALUES(?,?)",(sid,name));c.commit();flash("Payment method added.","success")
+    except sqlite3.IntegrityError:flash("That payment method already exists.","warning")
+   return redirect(url_for("shop_settings")+"#payment-methods")
+  if action=="toggle_payment_method":
+   mid=request.form.get("method_id",type=int)
+   m=c.execute("SELECT * FROM payment_methods WHERE id=? AND shop_id=?",(mid,sid)).fetchone() if mid else None
+   if m:c.execute("UPDATE payment_methods SET active=? WHERE id=? AND shop_id=?",(0 if m["active"] else 1,mid,sid));c.commit();flash("Payment method updated.","success")
+   return redirect(url_for("shop_settings")+"#payment-methods")
   name=val("name"); phone=val("phone"); whatsapp=val("whatsapp"); email=val("email"); address=val("address"); gstin=val("gstin"); footer=val("bill_footer","Thank you for shopping with us!")
-  if not name:
-   flash("Shop name is required.","danger")
+  if not name: flash("Shop name is required.","danger")
   else:
    c.execute("UPDATE shops SET name=?,phone=?,whatsapp=?,email=?,address=?,gstin=?,bill_footer=? WHERE id=?",(name,phone,whatsapp,email,address,gstin,footer,sid));c.commit()
    flash("Shop details updated. New details will appear on bills and WhatsApp messages.","success")
   return redirect(url_for("shop_settings"))
  shop=c.execute("SELECT * FROM shops WHERE id=?",(sid,)).fetchone()
- content="""<h1>Shop Settings</h1><section class=panel><p class=muted>These details identify your shop on customer bills and WhatsApp invoices.</p><form method=post><div class=formgrid>
+ methods=c.execute("SELECT * FROM payment_methods WHERE shop_id=? ORDER BY active DESC,name",(sid,)).fetchall()
+ content="""<h1>Shop Settings</h1>
+ <section class=panel><h2>Shop details</h2><p class=muted>These details identify your shop on customer bills and WhatsApp invoices.</p><form method=post><input type=hidden name=action value=save_shop><div class=formgrid>
  <div class=field><label>Shop / Business name *</label><input name=name value='{{shop.name}}' required></div>
  <div class=field><label>Phone number</label><input name=phone type=tel value='{{shop.phone or ""}}' placeholder='+91...'></div>
  <div class=field><label>WhatsApp number</label><input name=whatsapp type=tel value='{{shop.whatsapp or ""}}' placeholder='Country code + number'></div>
@@ -601,8 +615,10 @@ def shop_settings():
  <div class=field><label>GSTIN (if applicable)</label><input name=gstin value='{{shop.gstin or ""}}' maxlength=15></div>
  <div class=field><label>Address</label><input name=address value='{{shop.address or ""}}'></div>
  <div class=field style='grid-column:1/-1'><label>Bill footer / Thank-you message</label><input name=bill_footer value='{{shop.bill_footer or "Thank you for shopping with us!"}}'></div>
- </div><p><button type=submit>Save Shop Settings</button></p></form></section>"""
- return render_template_string(BASE+content+END,shop=shop,title="Shop Settings")
+ </div><p><button type=submit>Save Shop Details</button></p></form></section>
+ <section class=panel id=payment-methods><h2>Payment methods</h2><p class=muted>Add the payment options your shop accepts. Active methods appear in sales and payment forms.</p><form method=post class=formgrid><input type=hidden name=action value=add_payment_method><div class=field><label>New payment method</label><input name=payment_name placeholder='Cash, UPI, Google Pay, PhonePe, Card...' required></div><div><button>Add payment method</button></div></form><div class=tablewrap><table><thead><tr><th>Method</th><th>Status</th><th>Action</th></tr></thead><tbody>{% for m in methods %}<tr><td>{{m.name}}</td><td>{{'Active' if m.active else 'Inactive'}}</td><td><form method=post><input type=hidden name=action value=toggle_payment_method><input type=hidden name=method_id value='{{m.id}}'><button class=btn2>{{'Disable' if m.active else 'Enable'}}</button></form></td></tr>{% else %}<tr><td colspan=3>No payment methods configured.</td></tr>{% endfor %}</tbody></table></div></section>
+ <section class=panel id=backup-restore><h2>Backup & restore</h2><p>Download a copy of this shop's data before making major changes. Restore replaces this shop's current operational records with the selected backup.</p><div class=actions><a class=btn href='{{url_for("backup")}}'>Download shop backup (JSON)</a></div><form method=post enctype=multipart/form-data action='{{url_for("shop_restore")}}' onsubmit='return confirm("Restore will replace this shop’s current records. Download a backup first. Continue?")' style='margin-top:14px'><div class=field><label>Restore from EasyKada shop backup (.json)</label><input type=file name=backup accept='.json,application/json' required></div><p><button class=danger type=submit>Restore shop backup</button></p></form><p class=muted>Keep backup files in a safe location. Do not share them publicly; they contain business and customer records.</p></section>"""
+ return render_template_string(BASE+content+END,shop=shop,methods=methods,title="Shop Settings")
 
 @app.route("/payment-methods",methods=["GET","POST"])
 @shoponly
@@ -617,14 +633,14 @@ def payment_methods():
   return redirect(url_for("payment_methods"))
  methods=c.execute("SELECT * FROM payment_methods WHERE shop_id=? ORDER BY active DESC,name",(sid,)).fetchall()
  content="""<h1>Payment Methods</h1><section class=panel><h2>Add payment method</h2><form method=post class=formgrid><div class=field><label>Method name</label><input name=name placeholder='e.g. PhonePe, Google Pay, Bank Transfer' required></div><div><button>Add method</button></div></form></section><section class=panel><h2>Available methods</h2><table><thead><tr><th>Name</th><th>Status</th><th>Action</th></tr></thead><tbody>{% for m in methods %}<tr><td>{{m.name}}</td><td>{{'Active' if m.active else 'Inactive'}}</td><td><form method=post action=/payment-methods/{{m.id}}/toggle><button class=btn2>{{'Disable' if m.active else 'Enable'}}</button></form></td></tr>{% endfor %}</tbody></table></section>"""
- return render_template_string(BASE+content+END,methods=methods)
+ return redirect(url_for("shop_settings")+"#payment-methods")
 
 @app.route("/payment-methods/<int:mid>/toggle",methods=["POST"])
 @shoponly
 def payment_method_toggle(mid):
  c=db();m=c.execute("SELECT * FROM payment_methods WHERE id=? AND shop_id=?",(mid,shopid())).fetchone()
  if m:c.execute("UPDATE payment_methods SET active=? WHERE id=? AND shop_id=?",(0 if m["active"] else 1,mid,shopid()));c.commit();flash("Payment method updated.","success")
- return redirect(url_for("payment_methods"))
+ return redirect(url_for("shop_settings")+"#payment-methods")
 
 @app.route("/reports")
 @shoponly
@@ -642,6 +658,46 @@ def reports():
 def backup():
  data=shopbackup(shopid())
  return send_file(io.BytesIO(json.dumps(data,indent=2).encode()),mimetype="application/json",as_attachment=True,download_name="easykada-shop-backup.json")
+
+@app.route("/shop-settings/restore",methods=["POST"])
+@shoponly
+def shop_restore():
+ f=request.files.get("backup")
+ if not f or not f.filename:
+  flash("Choose a backup JSON file first.","danger");return redirect(url_for("shop_settings")+"#backup-restore")
+ try:
+  payload=json.load(f.stream)
+  if payload.get("format")!="easykada-shop-v1" or not isinstance(payload.get("data"),dict): raise ValueError("This is not a valid EasyKada shop backup.")
+  data=payload["data"]
+  required={"products","customers","suppliers","sales","sale_items","purchases","purchase_payments","expenses","incomes","categories","payment_methods","sales_returns","sales_return_items","purchase_returns","purchase_return_items"}
+  if not required.issubset(data): raise ValueError("Backup is missing required data sections.")
+ except Exception as e:
+  flash("Invalid backup file: "+str(e),"danger");return redirect(url_for("shop_settings")+"#backup-restore")
+ sid=shopid();c=db()
+ try:
+  c.execute("BEGIN")
+  # Delete child records first to respect the existing relationship order.
+  for t in ["sale_items","sales_return_items","purchase_return_items","sales_returns","purchase_returns","sales","purchase_payments","purchases","expenses","incomes","products","customers","suppliers","categories","payment_methods"]:
+   if t=="sale_items": c.execute("DELETE FROM sale_items WHERE sale_id IN (SELECT id FROM sales WHERE shop_id=?)",(sid,))
+   elif t=="sales_return_items": c.execute("DELETE FROM sales_return_items WHERE return_id IN (SELECT id FROM sales_returns WHERE shop_id=?)",(sid,))
+   elif t=="purchase_return_items": c.execute("DELETE FROM purchase_return_items WHERE return_id IN (SELECT id FROM purchase_returns WHERE shop_id=?)",(sid,))
+   else: c.execute(f"DELETE FROM {t} WHERE shop_id=?",(sid,))
+  for t in ["products","customers","suppliers","sales","sale_items","purchases","purchase_payments","expenses","incomes","categories","payment_methods","sales_returns","sales_return_items","purchase_returns","purchase_return_items"]:
+   for raw in data.get(t,[]):
+    row=dict(raw);cols={x["name"] for x in c.execute(f"PRAGMA table_info({t})")};row={k:v for k,v in row.items() if k in cols}
+    if "shop_id" in cols: row["shop_id"]=sid
+    c.execute(f"INSERT INTO {t} ({','.join(row)}) VALUES ({','.join('?' for _ in row)})",list(row.values()))
+  # Restore shop profile details while preserving the current login/active state.
+  shoprows=data.get("shops",[])
+  if shoprows:
+   old=shoprows[0]
+   cols={x["name"] for x in c.execute("PRAGMA table_info(shops)")}
+   allowed=[k for k in ("name","phone","address","whatsapp","email","gstin","currency","bill_footer") if k in old and k in cols]
+   if allowed:c.execute("UPDATE shops SET "+",".join(k+"=?" for k in allowed)+" WHERE id=?",[old[k] for k in allowed]+[sid])
+  c.commit();flash("Shop backup restored successfully.","success")
+ except Exception as e:
+  c.rollback();flash("Restore failed; no changes were saved: "+str(e),"danger")
+ return redirect(url_for("shop_settings")+"#backup-restore")
 @app.errorhandler(500)
 def internal_error(e):
     """Return a simple error page without invoking the normal template renderer.
