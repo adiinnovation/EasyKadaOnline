@@ -39,6 +39,12 @@ def close_db(e=None):
  c=g.pop("db",None)
  if c:c.close()
 def today():return date.today().isoformat()
+
+# Make today's date available to every inline Jinja template, including /entries.
+@app.context_processor
+def inject_template_helpers():
+ return {"today":today}
+
 def now():return datetime.now().isoformat(timespec="seconds")
 def val(k,d=""):return (request.form.get(k) or d).strip()
 def num(k,d=0):
