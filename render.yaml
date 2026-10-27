@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: easykada
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 2 --timeout 120
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: EASYKADA_SECRET_KEY
+        generateValue: true
+      - key: EASYKADA_DATABASE_PATH
+        value: /var/data/easykada.sqlite3
+    disk:
+      name: easykada-data
+      mountPath: /var/data
+      sizeGB: 1
